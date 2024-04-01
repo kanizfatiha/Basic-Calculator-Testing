@@ -12,6 +12,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    
     - name: Set up Python 3.8
       uses: actions/setup-python@v2
       with:
@@ -20,11 +21,12 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
+        cd src
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
     - name: Run Unit Tests
       run: |
-        cd tests
+        cd src
         python -m unittest discover
 
   deploy-to-dev:
@@ -38,5 +40,5 @@ jobs:
     - name: Deploy to Development Environment
       run: |
         echo "Deploying to development environment"
-        # Add your deployment commands here. This can vary greatly depending on your environment.
-        # For example, you might use SSH, SCP, Kubernetes, Docker, AWS CLI, Azure CLI, etc.
+        # Add your deployment commands here, tailored to your development environment.
+        # This can involve SSH, SCP, Kubernetes, Docker, AWS CLI, Azure CLI, etc.
