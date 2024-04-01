@@ -1,34 +1,42 @@
-name: CI
+name: Node.js CI/CD
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
   pull_request:
-    branches:
-      - main
+    branches: [ main ]
 
 jobs:
-  build:
+  build-and-test:
     runs-on: ubuntu-latest
 
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+    strategy:
+      matrix:
+        node-version: [16.x]
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v2
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
       with:
-        node-version: '14'
+        node-version: ${{ matrix.node-version }}
 
     - name: Install dependencies
       run: npm install
 
     - name: Run unit tests
-      run: npm test
+      run: npm run test:unit
 
     - name: Run integration tests
-      run: npm run integration-test
+      run: npm run test:integration
 
-    - name: Lint code
-      run: npm run lint
+    - name: Run regression tests
+      run: npm run test:regression
+
+    # Uncomment and modify the following section according to your deployment target and strategy
+    # - name: Deploy
+    #   if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    #   run: <Deployment command here>
+    #   env:
+    #     DEPLOYMENT_SECRET: ${{ secrets.DEPLOYMENT_SECRET }}
