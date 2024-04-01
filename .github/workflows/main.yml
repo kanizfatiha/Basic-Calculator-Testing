@@ -1,4 +1,4 @@
-name: Node.js CI/CD
+name: Python Application CI/CD Pipeline
 
 on:
   push:
@@ -10,33 +10,33 @@ jobs:
   build-and-test:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [16.x]
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+    - name: Run Unit Tests
+      run: |
+        cd tests
+        python -m unittest discover
+
+  deploy-to-dev:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
 
     steps:
     - uses: actions/checkout@v2
-    
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
 
-    - name: Install dependencies
-      run: npm install
-
-    - name: Run unit tests
-      run: npm run test:unit
-
-    - name: Run integration tests
-      run: npm run test:integration
-
-    - name: Run regression tests
-      run: npm run test:regression
-
-    # Uncomment and modify the following section according to your deployment target and strategy
-    # - name: Deploy
-    #   if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-    #   run: <Deployment command here>
-    #   env:
-    #     DEPLOYMENT_SECRET: ${{ secrets.DEPLOYMENT_SECRET }}
+    - name: Deploy to Development Environment
+      run: |
+        echo "Deploying to development environment"
+        # Add your deployment commands here. This can vary greatly depending on your environment.
+        # For example, you might use SSH, SCP, Kubernetes, Docker, AWS CLI, Azure CLI, etc.
