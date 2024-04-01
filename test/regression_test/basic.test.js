@@ -1,4 +1,4 @@
-const { expect } = require('chai');
+
 const { add, subtract, multiply, divide } = require("../../src/basic"); // Assuming your module is in a file named 'yourModule.js'
 
 describe('Math functions', () => {

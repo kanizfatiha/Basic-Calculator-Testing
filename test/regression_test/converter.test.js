@@ -1,4 +1,4 @@
-const { expect } = require('chai');
+
 const { WeightConverter } = require('../../src/converter'); // Assuming your module is in a file named 'yourModule.js'
 
 describe('WeightConverter', () => {

@@ -1,4 +1,4 @@
-const { expect } = require('chai');
+
 const { isPalindrome } = require('../../src/isPalindrome'); // Assuming your module is in a file named 'yourModule.js'
 
 describe('isPalindrome', () => {
