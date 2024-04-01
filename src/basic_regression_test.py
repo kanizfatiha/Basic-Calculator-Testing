@@ -1,6 +1,6 @@
 import unittest
-from basic_test import TestCalculator  # Assuming this is your unit test class
-from basic_test import TestCalculatorIntegration  # Assuming this is your integration test class
+from basic_unit_test import TestCalculator  # Assuming this is your unit test class
+from basic_integration_test import TestCalculatorIntegration  # Assuming this is your integration test class
 
 class RegressionTestCalculator(unittest.TestCase):
     
